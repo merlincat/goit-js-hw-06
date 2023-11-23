@@ -1,33 +1,42 @@
 'use strict';
-// Задача 3. Профіль гравця
-// Об’єкт profile описує профіль користувача на ігровій платформі. У його властивостях зберігається ім’я профілю username та кількість активних годин playTime, проведених у грі.
+// Задача 3. Конструктор рядків
+// Напиши клас StringBuilder, який приймає один параметр initialValue — довільний рядок, який записується у приватну властивість value об'єкта, що створюється.
 
-// Доповни об’єкт profile методами для роботи з його властивостями.
+// Оголоси наступні методи класу:
 
-// Метод changeUsername(newName) повинен приймати рядок (нове ім’я) в параметр newName та змінювати значення властивості username на нове. Нічого не повертає.
-// Метод updatePlayTime(hours) повинен приймати число (кількість годин) у параметр hours та збільшити на нього значення властивості playTime. Нічого не повертає.
-// Метод getInfo() має повертати рядок формату <Username> has <amount> active hours!, де <Username> — це ім’я профілю, а <amount> — кількість ігрових годин.
-// Візьми код нижче і встав після оголошення своєї функції для перевірки коректності її роботи. У консоль будуть виведені результати її роботи.
+// getValue() — повертає поточне значення приватної властивості value.
+// padEnd(str) — отримує параметр str (рядок) і додає його в кінець значення приватної властивості value об'єкта, який викликає цей метод.
+// padStart(str) — отримує параметр str (рядок) і додає його на початок значення приватної властивості value об'єкта, який викликає цей метод.
+// padBoth(str) — отримує параметр str (рядок) і додає його на початок і в кінець значення приватної властивості  value об'єкта, який викликає цей метод.
 
-const profile = {
-  username: 'Jacob',
-  playTime: 300,
-  changeUsername(newName) {
-    this.username = newName;
-  },
-  updatePlayTime(hours) {
-    this.playTime += hours;
-  },
+class StringBuilder {
+  #value;
+  constructor(initialValue) {
+    this.#value = initialValue;
+  }
+  getValue() {
+    return this.#value;
+  }
+  padEnd(str) {
+    this.#value += str;
+    // this.#value = this.#value.padEnd(this.#value.length + str.length, str);
+  }
+  padStart(str) {
+    // this.#value = this.#value.padStart(this.#value.length + str.length, str);
+    this.#value = str + this.#value;
+  }
+  padBoth(str) {
+    // this.#value = this.#value.padBoth(this.#value.length + 2 * str.length, str); // не працює
+    this.#value = str + this.#value + str;
+  }
+}
+// можна використати одноіменні методи стрічки, але мені здалось, вони набагато довші по запису, тому використала прості +
 
-  getInfo() {
-    return `${this.username} has ${this.playTime} active hours!`;
-  },
-};
-
-console.log(profile.getInfo()); // "Jacob has 300 active hours!"
-
-profile.changeUsername('Marco');
-console.log(profile.getInfo()); // "Marco has 300 active hours!"
-
-profile.updatePlayTime(20);
-console.log(profile.getInfo()); // "Marco has 320 active hours!"
+const builder = new StringBuilder('.');
+console.log(builder.getValue()); // "."
+builder.padStart('^');
+console.log(builder.getValue()); // "^."
+builder.padEnd('^');
+console.log(builder.getValue()); // "^.^"
+builder.padBoth('=');
+console.log(builder.getValue()); // "=^.^="
